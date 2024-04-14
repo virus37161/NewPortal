@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filter %}
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+   <h1>Все новости</h1><br>
+<hr>
+
+    {%if news%}
+   {% for new in news %}
+<a href="http://127.0.0.1:8000/news/{{new.id}}"><h2>{{ new.name|censor}}</h2></a>
+        <h6>{{new.some_data|date:'d.M.Y'}}</h6><br>
+        <h3>{{new.text|censor|truncatechars:20}}</h3>
+<br><hr>
+        {%endfor%}
+   {% else %}
+
+       <h2>Новостей и статей нет</h2>
+   {% endif %}
+{% endblock content %}
