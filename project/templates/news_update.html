@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<hr>
+{%if object.Char == 'NW'%}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+{%else%}
+<h1>Такой новости не существуют (проверьте вводимый id)</h1>
+{% endif %}
+{% endblock content %}

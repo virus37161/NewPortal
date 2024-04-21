@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+{%if object.Char == 'PS'%}
+<h1>Удаление {{object.name}}</h1>
+<hr>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Удаляем "{{ object.name }}"?</p>
+    <input type="submit" value="Delete" />
+</form>
+{% else %}
+<h1>Такой статьи не существуют (проверьте вводимый id)</h1>
+{% endif %}
+{% endblock content %}
