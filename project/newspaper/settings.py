@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-n1!zue5=n0q$$uo7193#h&qdl3^ffs10lfosqc_o&e#sjh#jgf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -41,11 +41,19 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'fpages',
     'news',
-    'django_filters'
+    'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
-SITE_ID=1
+SITE_ID = 1
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 
 ]
 
@@ -72,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -135,3 +145,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+LOGIN_URL = 'http://127.0.0.1:8000/accounts/login/'
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/news'
+LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/login/'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '307851525307-ejfnr5c7q2vgigb04krobip5orotl5j6.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+ACCOUNT_FORMS = {'signup': 'news.forms.BasicSignupForm'}

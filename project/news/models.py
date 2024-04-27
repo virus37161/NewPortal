@@ -20,7 +20,8 @@ class Author(models.Model):
 
         self.rating = post_rating * 3 + comment_rating + posts_comment
         self.save()
-
+    def __str__(self):
+        return f'{self.user.username.title()}'
 class Category(models.Model):
     name_category = models.TextField(unique= True)
     def __str__(self):
