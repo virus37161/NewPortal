@@ -10,7 +10,14 @@ New
         <h1>{{new.name|censor}}</h1><br><hr>
         <h3>{{new.text|censor}}</h3>
 
-<h6>{{ new.some_data|date:'d.M.Y' }}</h6><br><hr>
-
-
+<h6>{{ new.some_data|date:'d.M.Y' }}</h6><br><hr><br>
+<h5>Категории:</h5>
+{%for i in new.post_category.all%}
+<p>{{i}}</p>
+{%if user not in i.subscribers.all%}
+<button> <a href="http://127.0.0.1:8000/news/categories/subscribe/{{i.id}}/"> Подписаться</a> </button>
+{%else%}
+<button> <a href="http://127.0.0.1:8000/news/categories/unsubscribe/{{i.id}}/"> Отписаться</a> </button>
+{%endif%}
+{%endfor%}
 {% endblock content %}

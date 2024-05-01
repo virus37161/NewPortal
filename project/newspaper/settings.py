@@ -165,3 +165,9 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 ACCOUNT_FORMS = {'signup': 'news.forms.BasicSignupForm'}
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'unton.edgar.2001'
+EMAIL_HOST_PASSWORD = 'katzgcjilsjurudr'
+EMAIL_USE_SSL = True

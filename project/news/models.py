@@ -9,6 +9,7 @@ from django.urls import reverse
 post = "PS"
 New = "NW"
 Post_news = [(post,'статья'), (New, "новость")]
+
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     rating = models.IntegerField(default=0)
@@ -22,10 +23,16 @@ class Author(models.Model):
         self.save()
     def __str__(self):
         return f'{self.user.username.title()}'
+
+
+
 class Category(models.Model):
     name_category = models.TextField(unique= True)
+    subscribers = models.ManyToManyField(User, related_name = "cotegory_subscribe")
+
     def __str__(self):
         return f'{self.name_category.title()}'
+
 class Post(models.Model):
     post_author = models.ForeignKey(Author, on_delete = models.CASCADE)
     Char = models.CharField(max_length = 2, choices = Post_news)
@@ -69,4 +76,5 @@ class Comment(models.Model):
     def dislike(self):
         self.rate -= 1
         self.save()
+
 

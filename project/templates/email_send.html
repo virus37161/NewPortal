@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{ post.name }}</h2>
+    <h4> {{ post.text|truncatechars:50 }} </h4>
+    <p>Здравствуй. Новая статья в твоём любимом разделе. </p>
+<a href ="http://127.0.0.1:8000/news/{{post.id}}">Прочитать</a>
+</body>
+</html>

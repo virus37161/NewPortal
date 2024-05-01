@@ -1,6 +1,6 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import ListNews,DetailNew,ListNewss,CreateNews, CreateArticle, NewsUpdate,ArticlesUpdate, DeleteNews,DeleteArticle,upgrade_me
+from .views import ListNews,DetailNew,ListNewss,CreateNews, CreateArticle, NewsUpdate,ArticlesUpdate, DeleteNews,DeleteArticle,upgrade_me,subscribe, unsubscribe
 from django.contrib.auth.views import LogoutView,TemplateView
 
 urlpatterns = [
@@ -20,4 +20,8 @@ path('articles/<int:pk>/edit/', ArticlesUpdate.as_view()),
 path('articles/<int:pk>/delete/', DeleteArticle.as_view(), name = 'delete_article'),
 path('news/<int:pk>/delete/', DeleteNews.as_view()),
 path('upgrade/', upgrade_me, name = 'upgrade'),
+path('logout/', LogoutView.as_view(template_name = 'logout.html'),name='logout'),
+path ('logout/confirm/', TemplateView.as_view(template_name = 'logout_confirm.html'), name = 'logout_confirm'),
+path('categories/subscribe/<int:pk>/', subscribe, name = 'subscribe'),
+path('categories/unsubscribe/<int:pk>/', unsubscribe, name = 'unsubscribe'),
 ]

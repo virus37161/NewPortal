@@ -39,8 +39,8 @@ News
            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
    {% endif %}
-
-{% if is_not_premium %}
+<br><br>
+{% if is_not_author %}
 <button> <a href="http://127.0.0.1:8000/news/upgrade"> Стать автором</a> </button>
 {% endif %}
 {% endblock content %}

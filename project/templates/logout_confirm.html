@@ -1,0 +1,9 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h2> Вы действительно хотите выйти из системы? </h2>
+<form action = "{% url 'logout'%}" method = "post">
+    {% csrf_token %}
+    <input type = "submit" value = "Подтвердить">
+</form>
+{% endblock %}
