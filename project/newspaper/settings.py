@@ -40,16 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fpages',
-    'news',
+    'news.apps.NewsConfig',
     'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
-
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -151,8 +153,8 @@ LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/login/'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -171,3 +173,6 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'unton.edgar.2001'
 EMAIL_HOST_PASSWORD = 'katzgcjilsjurudr'
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'unton.edgar.2001@yandex.ru'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

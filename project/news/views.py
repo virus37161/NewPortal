@@ -9,8 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail, EmailMultiAlternatives
-from django.template.loader import render_to_string
+
+import datetime
 
 class ListNews(ListView):
     model = Post
@@ -53,6 +53,8 @@ class ListNewss(ListView):
         context['filterset'] = self.filterset
         return context
 
+
+
 class CreateNews(PermissionRequiredMixin,CreateView):
     permission_required = ('news.add_post')
     form_class= NewsForm
@@ -62,24 +64,12 @@ class CreateNews(PermissionRequiredMixin,CreateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.Char = 'NW'
-        self.object = form.save()
-        recipient = []
-        for i in self.object.post_category.all():
-            for b in i.subscribers.all():
-                recipient.append(b.email)
-        html_content = render_to_string(
-            'email_send.html',
-            {
-                'post': self.object
-            })
-        msg = EmailMultiAlternatives(
-            subject=f'{self.object.name}',
-            body=f"{self.object.text}",
-            from_email='unton.edgar.2001@yandex.ru',
-            to=recipient,
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        post.post_author = Author.objects.get(user_id = self.request.user.id)
+        Author_id = Author.objects.get(user_id=self.request.user.id).id
+        if len(Post.objects.filter(post_author_id = Author_id).all().filter(some_data = datetime.datetime.today().strftime('%Y-%m-%d')).all()) <= 2:
+            self.object = form.save()
+        else:
+            return render(self.request, "Many_create.html")
         return super().form_valid(form)
 
 class CreateArticle(PermissionRequiredMixin,CreateView):
@@ -91,24 +81,13 @@ class CreateArticle(PermissionRequiredMixin,CreateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.Char = 'PS'
-        self.object = form.save()
-        recipient = []
-        for i in self.object.post_category.all():
-            for b in i.subscribers.all():
-                recipient.append(b.email)
-        html_content = render_to_string(
-            'email_send.html',
-            {
-                'post': self.object
-            })
-        msg = EmailMultiAlternatives(
-            subject=f'{self.object.name}',
-            body=f"{self.object.text}",
-            from_email='unton.edgar.2001@yandex.ru',
-            to=recipient,
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        post.post_author = Author.objects.get(user_id=self.request.user.id)
+        Author_id = Author.objects.get(user_id=self.request.user.id).id
+        if len(Post.objects.filter(post_author_id=Author_id).all().filter(
+                some_data=datetime.datetime.today().strftime('%Y-%m-%d')).all()) <= 2:
+            self.object = form.save()
+        else:
+            return render(self.request, "Many_create.html")
         return super().form_valid(form)
 
 
@@ -144,6 +123,7 @@ def upgrade_me(request):
     author_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         author_group.user_set.add(user)
+        Author.objects.create(user_id = request.user.id)
     return redirect('/news')
 
 @login_required

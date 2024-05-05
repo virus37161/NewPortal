@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h2>Список новостей за неделю:</h2>
+    {%for post in content%}
+    <h3>{{ post.name }} </h3>
+    <h4> {{ post.text|truncatechars:50 }} <a href ="http://127.0.0.1:8000/news/{{post.id}}">Прочитать</a></h4><hr>
+    {%endfor%}
+</body>
+</html>

@@ -7,11 +7,12 @@ from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 
 class NewsForm(forms.ModelForm):
-    text = forms.CharField(min_length=20)
+    name = forms.CharField()
+    text = forms.CharField(min_length=20, widget = forms.Textarea)
 
     class Meta:
         model = Post
-        fields = ['name', 'text','post_category', 'post_author']
+        fields = ['name', 'text','post_category']
     def clean(self):
         cleaned_data = super().clean()
         description = cleaned_data.get("text")

@@ -1,4 +1,4 @@
-from django_filters import FilterSet, DateFilter, ModelMultipleChoiceFilter
+from django_filters import FilterSet, DateFilter, ModelMultipleChoiceFilter,CharFilter
 from .models import Post, Category, Author
 from django import forms
 
@@ -7,13 +7,11 @@ from django import forms
 # должен чем-то напомнить знакомые вам Django дженерики.
 class NewsFilter(FilterSet):
 
-    some_data = DateFilter(field_name = "some_data",lookup_expr = 'gte', label = 'Date', widget = forms.DateInput(attrs = {'type': 'date'},))
-    category = ModelMultipleChoiceFilter(field_name = 'post_category', queryset = Category.objects.all(), label = 'Category', conjoined = True)
+    name = CharFilter (lookup_expr = 'icontains', field_name = "name", label = 'Название')
+    some_data = DateFilter(field_name = "some_data",lookup_expr = 'gte', label = 'Дата', widget = forms.DateInput(attrs = {'type': 'date'},))
+    category = ModelMultipleChoiceFilter(field_name = 'post_category', queryset = Category.objects.all(), label = 'Категории', conjoined = True)
+    post_author = CharFilter(lookup_expr = 'icontains', field_name = "post_author", label = 'Автор')
 
     class Meta:
         model = Post
-        fields = {
-           'name': ['icontains'],
-           'post_author__user__username':['icontains'],
-
-        }
+        fields = ['name','post_author']
