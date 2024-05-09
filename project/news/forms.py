@@ -7,8 +7,8 @@ from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 
 class NewsForm(forms.ModelForm):
-    name = forms.CharField()
-    text = forms.CharField(min_length=20, widget = forms.Textarea)
+    name = forms.CharField(label='Название')
+    text = forms.CharField(label='содержание',min_length=20, widget = forms.Textarea)
 
     class Meta:
         model = Post

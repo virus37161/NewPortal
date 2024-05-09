@@ -6,8 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>{{ post.name }}</h2>
-    <h4> {{ post.text|truncatechars:50 }} </h4>
+    <h2>{{ name }}</h2>
+    <h4> {{ text|truncatechars:50 }} </h4>
     <p>Здравствуй. Новая статья в твоём любимом разделе. </p>
 <a href ="http://127.0.0.1:8000/news/{{post.id}}">Прочитать</a>
 </body>

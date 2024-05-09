@@ -76,7 +76,7 @@ class CreateArticle(PermissionRequiredMixin,CreateView):
     permission_required = ('news.add_post')
     form_class= NewsForm
     model = Post
-    template_name = "news_create.html"
+    template_name = "article_create.html"
 
     def form_valid(self, form):
         post = form.save(commit=False)

@@ -3,24 +3,14 @@ from django.dispatch import receiver
 from .models import *
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
-
+from .tasks import send_post
 
 @receiver(post_save, sender=Post)
 def notify_subscribers (sender, instance, created, **kwargs):
     recipient = []
+    name = instance.name
+    text = instance.text
     for i in instance.post_category.all():
         for b in i.subscribers.all():
             recipient.append(b.email)
-    html_content = render_to_string(
-        'email_send.html',
-        {
-            'post': instance
-        })
-    msg = EmailMultiAlternatives(
-        subject=f'{instance.name}',
-        body=f"{instance.text}",
-        from_email='unton.edgar.2001@yandex.ru',
-        to=recipient,
-    )
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    send_post.apply_async(args=[recipient, name, text])

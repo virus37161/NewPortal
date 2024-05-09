@@ -155,7 +155,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none' #'mandatory'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -176,3 +176,9 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 'unton.edgar.2001@yandex.ru'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
