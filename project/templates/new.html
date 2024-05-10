@@ -19,5 +19,10 @@ New
 {%else%}
 <button> <a href="http://127.0.0.1:8000/news/categories/unsubscribe/{{i.id}}/"> Отписаться</a> </button>
 {%endif%}
-{%endfor%}
+{%endfor%}<br><br>
+{%if new.Char == 'NW'%}
+<button><a href="/news/news/{{new.id}}/delete">Удалить новость</a></button>
+{%else%}
+<button><a href="/news/articles/{{new.id}}/delete">Удалить статью</a></button>
+{%endif%}
 {% endblock content %}
