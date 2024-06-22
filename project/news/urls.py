@@ -1,7 +1,8 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import ListNews,DetailNew,ListNewss,CreateNews, CreateArticle, NewsUpdate,ArticlesUpdate, DeleteNews,DeleteArticle,upgrade_me,subscribe, unsubscribe
+from .views import ListNews,DetailNew,ListNewss,CreateNews, CreateArticle, NewsUpdate,ArticlesUpdate, DeleteNews,DeleteArticle,upgrade_me,subscribe, unsubscribe,ListNewsMy, ListCategory
 from django.contrib.auth.views import LogoutView,TemplateView
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
    # path — означает путь.
@@ -11,8 +12,8 @@ urlpatterns = [
    # а Django ожидает функцию, нам надо представить этот класс в виде view.
    # Для этого вызываем метод as_view.
    path('', ListNews.as_view(), name = 'all_news'),
-   path('<int:pk>/',DetailNew.as_view(), name="news"),
-   path('search/',ListNewss.as_view()),
+   path('<int:pk>/', DetailNew.as_view(), name="news"),
+   path('search/', ListNewss.as_view()),
    path('create/', CreateNews.as_view()),
 path('articles/create/', CreateArticle.as_view()),
 path('news/<int:pk>/edit/', NewsUpdate.as_view()),
@@ -24,4 +25,6 @@ path('logout/', LogoutView.as_view(template_name = 'logout.html'),name='logout')
 path ('logout/confirm/', TemplateView.as_view(template_name = 'logout_confirm.html'), name = 'logout_confirm'),
 path('categories/subscribe/<int:pk>/', subscribe, name = 'subscribe'),
 path('categories/unsubscribe/<int:pk>/', unsubscribe, name = 'unsubscribe'),
+path('my/', ListNewsMy.as_view(), name = 'my_news'),
+path('category/', ListCategory.as_view(), name = 'all_category'),
 ]

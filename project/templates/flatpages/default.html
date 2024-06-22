@@ -7,7 +7,7 @@
         <meta name="author" content="" />
         <title>Bare - Start Bootstrap Template</title>
         <!-- Favicon-->
-
+        {%load cache%}
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
@@ -15,12 +15,16 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
+                {%cache 60 publication%}
                 <a class="navbar-brand" href="/news">Публикации</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                {% endcache %}
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" >{{request.user.username}}</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'logout_confirm'%}">Выйти</a></li>
+                        {%cache 60 logout_user%}
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'logout_confirm'%}">Выйти</a></li>{%endcache%}
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'all_category'%}">Мои подписки</a></li>
                        {% if not is_not_author %}
 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/news/create/"> Создать новость</a> </li>
 <li class="nav-item"> <a class="nav-link active" aria-current="page" href="/news/articles/create/"> Создать пост</a> </li>

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.urls import reverse
+from django.core.cache import cache
 post = "PS"
 New = "NW"
 Post_news = [(post,'статья'), (New, "новость")]
@@ -34,12 +35,12 @@ class Category(models.Model):
         return f'{self.name_category.title()}'
 
 class Post(models.Model):
-    post_author = models.ForeignKey(Author, on_delete = models.CASCADE)
+    post_author = models.ForeignKey(Author, on_delete = models.CASCADE, verbose_name='Автор')
     Char = models.CharField(max_length = 2, choices = Post_news)
     some_data = models.DateField(auto_now_add = True)
     some_time = models.TimeField (auto_now_add = True)
-    name = models.TextField()
-    text = models.TextField()
+    name = models.TextField(verbose_name='Название')
+    text = models.TextField(verbose_name='Текст')
     rate = models.IntegerField(default = 0)
     post_category = models.ManyToManyField(Category, through = 'PostCategory')
 
@@ -56,6 +57,15 @@ class Post(models.Model):
     def dislike(self):
         self.rate -= 1
         self.save()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
+
+    class Meta:
+        verbose_name_plural = 'Публикации'
+        verbose_name = 'Публикация'
+        ordering = ['-some_data']
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)

@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filter %}
+
+{% block title %}
+New
+{% endblock title %}
+
+
+{% block content %}
+
+<p>Категории:</p>
+{%for i in category.all%}
+<p>{{i}}</p>
+{%if user not in i.subscribers.all%}
+<button> <a href="http://127.0.0.1:8000/news/categories/subscribe/{{i.id}}/"> Подписаться</a> </button>
+{%else%}
+<button> <a href="http://127.0.0.1:8000/news/categories/unsubscribe/{{i.id}}/"> Отписаться</a> </button>
+{%endif%}
+{%endfor%}<br><br>
+
+{% endblock content %}
