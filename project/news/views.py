@@ -85,6 +85,11 @@ class CreateNews(PermissionRequiredMixin,CreateView):
             return render(self.request, "Many_create.html")
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
+
 class CreateArticle(PermissionRequiredMixin,CreateView):
     permission_required = ('news.add_post')
     form_class= NewsForm
@@ -103,6 +108,10 @@ class CreateArticle(PermissionRequiredMixin,CreateView):
             return render(self.request, "Many_create.html")
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
 
 class NewsUpdate(PermissionRequiredMixin,LoginRequiredMixin,UpdateView):
@@ -125,6 +134,11 @@ class NewsUpdate(PermissionRequiredMixin,LoginRequiredMixin,UpdateView):
             return render(self.request, "error_edit.html")
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
+
 class ArticlesUpdate(PermissionRequiredMixin,LoginRequiredMixin,UpdateView):
     permission_required = ('news.change_post')
     form_class = NewsForm
@@ -145,6 +159,11 @@ class ArticlesUpdate(PermissionRequiredMixin,LoginRequiredMixin,UpdateView):
             return render(self.request, "error_edit.html")
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
+
 class DeleteNews(PermissionRequiredMixin,DeleteView):
     permission_required = ('news.delete_post')
     model = Post
@@ -158,6 +177,10 @@ class DeleteNews(PermissionRequiredMixin,DeleteView):
             return render(self.request, "error_delete.html")
         return HttpResponseRedirect(success_url)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
 class DeleteArticle(PermissionRequiredMixin,DeleteView):
     permission_required = ('news.delete_post')
@@ -172,6 +195,11 @@ class DeleteArticle(PermissionRequiredMixin,DeleteView):
         else:
             return render(self.request, "error_delete.html")
         return HttpResponseRedirect(success_url)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
 @login_required
 def upgrade_me(request):
@@ -215,5 +243,10 @@ class ListCategory(ListView):
     model = Category
     context_object_name = 'category'
     template_name = 'subscribers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
 
 
